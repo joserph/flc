@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
+use App\Models\Logistic;
+use App\Policies\LogisticPolicy;
 use Spatie\Permission\Traits\HasRoles;
 
 class AuthServiceProvider extends ServiceProvider
@@ -18,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Logistic::class => LogisticPolicy::class
     ];
 
     /**

@@ -19,12 +19,4 @@ class CreatePermission extends CreateRecord
     {
         return 'Permission registered';
     }
-
-    // protected function getCreatedNotification(): ?Notification
-    // {
-    //     return Notification::make()
-    //         ->success()
-    //         ->title('Permission registered')
-    //         ->body('The user has been created successfully.');
-    // }
 }

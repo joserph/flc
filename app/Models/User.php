@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\HasPermissions;
-use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
 
 class User extends Authenticatable
 {
@@ -46,6 +46,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin(): bool
+    {
+        if ($this->roles[0]['name'] === 'Admin') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        // dd($this->roles[0]['name']);
+        if ($this->roles[0]['name'] === 'Super Admin') {
+            return true;
+        }
+        return false;
+    }
 
     public function posts() : HasMany{
         return $this->hasMany(Post::class);
