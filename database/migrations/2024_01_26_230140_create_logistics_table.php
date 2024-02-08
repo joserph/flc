@@ -18,16 +18,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('ruc');
             $table->string('phone');
-            $table->string('address');
+            $table->text('address');
             $table->string('state');
             $table->string('city');
             $table->string('country');
-            $table->unsignedBigInteger('user_update');
+            $table->string('email');
             $table->string('image_url')->nullable();
             $table->softDeletes();
-
-            $table->foreignIdFor(User::class)->constrained();
-            $table->foreign('user_update')->references('id')->on('users');
 
             $table->timestamps();
         });

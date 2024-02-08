@@ -20,8 +20,7 @@ class Logistic extends Model
         'state',
         'city',
         'country',
-        'user_update',
+        'email',
         'image_url',
-        'user_id'
     ];
 }

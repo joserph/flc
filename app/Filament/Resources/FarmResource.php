@@ -2,30 +2,27 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LogisticResource\Pages;
-use App\Filament\Resources\LogisticResource\RelationManagers;
-use App\Models\Logistic;
-use App\Services\LogisticForm;
+use App\Filament\Resources\FarmResource\Pages;
+use App\Filament\Resources\FarmResource\RelationManagers;
+use App\Models\Farm;
+use App\Services\FarmForm;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Hamcrest\StringDescription;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use PHPUnit\Framework\Attributes\Small;
 
-class LogisticResource extends Resource
+class FarmResource extends Resource
 {
-    protected static ?string $model = Logistic::class;
+    protected static ?string $model = Farm::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
 
-    protected static ?string $modelLabel = 'Empresa de Logistica';
+    protected static ?string $modelLabel = 'Finca';
 
-    protected static ?string $pluralLabel = 'Empresas de Logistica';
+    protected static ?string $pluralLabel = 'Fincas';
 
     public static function getBreadcrumb(): string
     {
@@ -35,7 +32,7 @@ class LogisticResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(LogisticForm::schema());
+            ->schema(FarmForm::schema());
     }
 
     public static function table(Table $table): Table
@@ -46,12 +43,30 @@ class LogisticResource extends Resource
                     ->sortable()
                     ->label('Nombre')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('tradename')
+                    ->sortable()
+                    ->label('Nombre Comercial')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('ruc')
                     ->sortable()
+                    ->label('RUC')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->label('Telefono'),
-                Tables\Columns\ImageColumn::make('image_url'),
+                    ->sortable()
+                    ->label('Telefono')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->extraAttributes(['class' => 'capitalize']),
+                // Tables\Columns\TextColumn::make('status')
+                //     ->sortable()
+                //     ->label('Estatus')
+                //     ->searchable(),
+                Tables\Columns\TextColumn::make('cell_phone')
+                    ->sortable()
+                    ->label('Celular')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('address')
                     ->sortable()
                     ->label('Direccion')
@@ -77,6 +92,11 @@ class LogisticResource extends Resource
                     ->label('Pais')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('agroquality_code')
+                    ->sortable()
+                    ->label('Codigo Agricultura')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label('Fecha Creacion')
@@ -88,11 +108,11 @@ class LogisticResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->iconButton()
-                    ->iconSize('sm')
-                    ->slideOver()
-                    ->color('warning')
-                    ->successNotificationTitle('Empresa de Logistica actualizada con exito!'),
+                ->iconButton()
+                ->iconSize('sm')
+                ->slideOver()
+                ->color('warning')
+                ->successNotificationTitle('Finca actualizada con exito!'),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),
@@ -123,9 +143,9 @@ class LogisticResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLogistics::route('/'),
-            // 'create' => Pages\CreateLogistic::route('/create'),
-            // 'edit' => Pages\EditLogistic::route('/{record}/edit'),
+            'index' => Pages\ListFarms::route('/'),
+            // 'create' => Pages\CreateFarm::route('/create'),
+            // 'edit' => Pages\EditFarm::route('/{record}/edit'),
         ];
     }
 

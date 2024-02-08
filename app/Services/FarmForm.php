@@ -5,18 +5,28 @@ namespace App\Services;
 use Filament\Forms;
 use Illuminate\Support\Facades\Auth;
 
-final class LogisticForm
+final class FarmForm
 {
+    protected static array $statuses = [
+        'activa'        => 'Activa',
+        'suspendida'    => 'Suspendida',
+        'cerrada'       => 'Cerrada',
+    ];
+
     public static function schema(): array
     {
         return [
-            Forms\Components\Grid::make(3)
+            Forms\Components\Grid::make(4)
                 ->schema([
                     Forms\Components\TextInput::make('name')
                         ->autofocus()
                         ->columnSpan(2)
-                        ->label('Nombre de la empresa')
+                        ->label('Nombre de la finca')
                         ->required(),
+                    Forms\Components\TextInput::make('tradename')
+                        ->autofocus()
+                        ->columnSpan(2)
+                        ->label('Nombre Comercial'),
                     Forms\Components\TextInput::make('ruc')
                         ->numeric()
                         ->maxLength(13)
@@ -25,8 +35,11 @@ final class LogisticForm
                     Forms\Components\TextInput::make('phone')
                         ->numeric()
                         ->prefix('+')
-                        ->label('Telefono')
-                        ->required(),
+                        ->label('Telefono'),
+                    Forms\Components\TextInput::make('cell_phone')
+                        ->numeric()
+                        ->prefix('+')
+                        ->label('Celular'),
                     Forms\Components\TextInput::make('email')
                         ->label('Correo')
                         ->required(),
@@ -43,10 +56,11 @@ final class LogisticForm
                     Forms\Components\TextInput::make('country')
                         ->label('Pais')
                         ->required(),
-                    Forms\Components\FileUpload::make('image_url')
-                        ->directory('company-image')
-                        ->image()
-                        ->imageEditor()
+                    Forms\Components\TextInput::make('agroquality_code')
+                        ->label('Codigo Agricultura'),
+                    Forms\Components\Select::make('status')
+                        ->options(self::$statuses)
+                        ->required()
                 ])
         ];
     }
