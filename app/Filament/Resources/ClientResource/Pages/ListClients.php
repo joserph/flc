@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ClientResource\Pages;
 
 use App\Filament\Resources\ClientResource;
 use App\Models\Client;
+use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
@@ -31,7 +32,7 @@ class ListClients extends ListRecords
     {
         $tabs = [];
         
-        if(auth()->user()->isSuperAdmin() || auth()->user()->isAdmin())
+        if(User::isSuperAdmin() || User::isAdmin())
         {
             $tabs['all'] = Tab::make('Totas')
                 ->badge(Client::withoutTrashed()->count())

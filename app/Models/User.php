@@ -47,18 +47,19 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function isAdmin(): bool
+    public static function isAdmin(): bool
     {
-        if ($this->roles[0]['name'] === 'Admin') {
+        // dd(Auth::user()->roles[0]['name']);
+        if (Auth::user()->roles[0]['name'] === 'Admin') {
             return true;
         }
         return false;
     }
 
-    public function isSuperAdmin(): bool
+    public static function isSuperAdmin(): bool
     {
         // dd($this->roles[0]['name']);
-        if ($this->roles[0]['name'] === 'Super Admin') {
+        if (Auth::user()->roles[0]['name'] === 'Super Admin') {
             return true;
         }
         return false;

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\FarmResource\Pages;
 use App\Filament\Resources\FarmResource\RelationManagers;
 use App\Models\Farm;
+use App\Models\User;
 use App\Services\FarmForm;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -121,14 +122,14 @@ class FarmResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->hidden(!auth()->user()->isSuperAdmin())
-                        ->hidden(!auth()->user()->isAdmin()),
+                        ->hidden(!User::isSuperAdmin())
+                        ->hidden(!User::isAdmin()),
                     Tables\Actions\ForceDeleteBulkAction::make()
-                        ->hidden(!auth()->user()->isSuperAdmin())
-                        ->hidden(!auth()->user()->isAdmin()),
+                        ->hidden(!User::isSuperAdmin())
+                        ->hidden(!User::isAdmin()),
                     Tables\Actions\RestoreBulkAction::make()
-                        ->hidden(!auth()->user()->isSuperAdmin())
-                        ->hidden(!auth()->user()->isAdmin()),
+                        ->hidden(!User::isSuperAdmin())
+                        ->hidden(!User::isAdmin()),
                 ]),
             ]);
     }

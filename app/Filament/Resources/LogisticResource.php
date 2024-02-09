@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LogisticResource\Pages;
 use App\Filament\Resources\LogisticResource\RelationManagers;
 use App\Models\Logistic;
+use App\Models\User;
 use App\Services\LogisticForm;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -101,14 +102,14 @@ class LogisticResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->hidden(!auth()->user()->isSuperAdmin())
-                        ->hidden(!auth()->user()->isAdmin()),
+                        ->hidden(!User::isSuperAdmin())
+                        ->hidden(!User::isAdmin()),
                     Tables\Actions\ForceDeleteBulkAction::make()
-                        ->hidden(!auth()->user()->isSuperAdmin())
-                        ->hidden(!auth()->user()->isAdmin()),
+                        ->hidden(!User::isSuperAdmin())
+                        ->hidden(!User::isAdmin()),
                     Tables\Actions\RestoreBulkAction::make()
-                        ->hidden(!auth()->user()->isSuperAdmin())
-                        ->hidden(!auth()->user()->isAdmin()),
+                        ->hidden(!User::isSuperAdmin())
+                        ->hidden(!User::isAdmin()),
                 ]),
             ]);
     }

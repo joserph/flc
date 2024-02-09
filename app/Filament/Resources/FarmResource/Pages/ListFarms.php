@@ -4,6 +4,7 @@ namespace App\Filament\Resources\FarmResource\Pages;
 
 use App\Filament\Resources\FarmResource;
 use App\Models\Farm;
+use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
@@ -31,7 +32,7 @@ class ListFarms extends ListRecords
     {
         $tabs = [];
         
-        if(auth()->user()->isSuperAdmin() || auth()->user()->isAdmin())
+        if(User::isSuperAdmin() || User::isAdmin())
         {
             $tabs['all'] = Tab::make('Totas')
                 ->badge(Farm::withoutTrashed()->count())
