@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Farm;
 use Filament\Forms;
 
-final class FarmForm
+final class ClientForm
 {
     protected static array $statuses = [
         'activa'        => 'Activa',
@@ -20,19 +19,9 @@ final class FarmForm
                 ->schema([
                     Forms\Components\TextInput::make('name')
                         ->autofocus()
-                        ->columnSpan(2)
-                        ->label('Nombre de la finca')
-                        ->unique(ignoreRecord: true)
-                        ->required(),
-                    Forms\Components\TextInput::make('tradename')
                         ->unique(ignoreRecord: true)
                         ->columnSpan(2)
-                        ->label('Nombre Comercial'),
-                    Forms\Components\TextInput::make('ruc')
-                        ->unique(ignoreRecord: true)
-                        ->numeric()
-                        ->maxLength(13)
-                        ->label('RUC')
+                        ->label('Nombre del cliente')
                         ->required(),
                     Forms\Components\TextInput::make('phone')
                         ->numeric()
@@ -43,26 +32,25 @@ final class FarmForm
                         ->prefix('+')
                         ->label('Celular'),
                     Forms\Components\TextInput::make('email')
-                        ->label('Correo')
-                        ->required(),
+                        ->label('Correo'),
                     Forms\Components\TextInput::make('address')
                         ->columnSpan(2)
-                        ->label('Direccion')
-                        ->required(),
+                        ->label('Direccion'),
                     Forms\Components\TextInput::make('state')
-                        ->label('Estado')
-                        ->required(),
+                        ->label('Estado'),
                     Forms\Components\TextInput::make('city')
-                        ->label('Ciudad')
-                        ->required(),
+                        ->label('Ciudad'),
+                    Forms\Components\TextInput::make('zip_code')
+                        ->label('Zip code'),
                     Forms\Components\TextInput::make('country')
-                        ->label('Pais')
+                        ->label('Pais'),
+                    Forms\Components\Select::make('logistic_id')
+                        ->relationship('logistic', 'name')
                         ->required(),
-                    Forms\Components\TextInput::make('agroquality_code')
-                        ->label('Codigo Agricultura'),
                     Forms\Components\Select::make('status')
                         ->options(self::$statuses)
-                        ->required()
+                        ->required(),
+                    
                 ])
         ];
     }
