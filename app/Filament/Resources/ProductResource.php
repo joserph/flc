@@ -42,10 +42,12 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
+                    ->extraAttributes(['class' => 'fi-uppercase'])
                     ->label('Nombre del Producto')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('scientific_name')
                     ->sortable()
+                    ->extraAttributes(['class' => 'fi-uppercase'])
                     ->label('Nombre Cientifico')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

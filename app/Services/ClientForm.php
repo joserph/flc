@@ -19,6 +19,7 @@ final class ClientForm
                 ->schema([
                     Forms\Components\TextInput::make('name')
                         ->autofocus()
+                        ->extraInputAttributes(['class' => 'fi-uppercase'])
                         ->unique(ignoreRecord: true)
                         ->columnSpan(2)
                         ->label('Nombre del cliente')

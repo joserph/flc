@@ -20,11 +20,13 @@ final class FarmForm
                 ->schema([
                     Forms\Components\TextInput::make('name')
                         ->autofocus()
+                        ->extraInputAttributes(['class' => 'fi-uppercase'])
                         ->columnSpan(2)
                         ->label('Nombre de la finca')
                         ->unique(ignoreRecord: true)
                         ->required(),
                     Forms\Components\TextInput::make('tradename')
+                        ->extraInputAttributes(['class' => 'fi-uppercase'])
                         ->unique(ignoreRecord: true)
                         ->columnSpan(2)
                         ->label('Nombre Comercial'),

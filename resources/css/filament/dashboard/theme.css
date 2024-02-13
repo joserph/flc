@@ -1,0 +1,9 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+@layer components {
+    .fi-section-content-ctn {
+         border: #876543;
+    }
+}

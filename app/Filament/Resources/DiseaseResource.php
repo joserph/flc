@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\VarietyResource\Pages;
-use App\Filament\Resources\VarietyResource\RelationManagers;
+use App\Filament\Resources\DiseaseResource\Pages;
+use App\Filament\Resources\DiseaseResource\RelationManagers;
+use App\Models\Disease;
 use App\Models\User;
-use App\Models\Variety;
-use App\Services\VarietyForm;
+use App\Services\DiseaseForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,15 +15,15 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class VarietyResource extends Resource
+class DiseaseResource extends Resource
 {
-    protected static ?string $model = Variety::class;
+    protected static ?string $model = Disease::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-fire';
+    protected static ?string $navigationIcon = 'heroicon-o-bug-ant';
 
-    protected static ?string $modelLabel = 'Variedad';
+    protected static ?string $modelLabel = 'Enfermedad';
 
-    protected static ?string $pluralLabel = 'Variedades';
+    protected static ?string $pluralLabel = 'Enfermedades';
 
     public static function getBreadcrumb(): string
     {
@@ -33,7 +33,7 @@ class VarietyResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(VarietyForm::schema());
+            ->schema(DiseaseForm::schema());
     }
 
     public static function table(Table $table): Table
@@ -43,13 +43,13 @@ class VarietyResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->extraAttributes(['class' => 'fi-uppercase'])
-                    ->label('Nombre de la Variedad')
+                    ->label('Nombre')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->label('Fecha Creacion')
+                Tables\Columns\TextColumn::make('type')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->extraAttributes(['class' => 'fi-capitalize'])
+                    ->label('Tipo')
+                    ->searchable(),
             ])
             ->filters([
                 // Tables\Filters\TrashedFilter::make(),
@@ -60,7 +60,7 @@ class VarietyResource extends Resource
                 ->iconSize('sm')
                 ->slideOver()
                 ->color('warning')
-                ->successNotificationTitle('Variedad actualizada con exito!'),
+                ->successNotificationTitle('Enfermedad actualizada con exito!'),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),
@@ -91,9 +91,9 @@ class VarietyResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListVarieties::route('/'),
-            // 'create' => Pages\CreateVariety::route('/create'),
-            // 'edit' => Pages\EditVariety::route('/{record}/edit'),
+            'index' => Pages\ListDiseases::route('/'),
+            // 'create' => Pages\CreateDisease::route('/create'),
+            // 'edit' => Pages\EditDisease::route('/{record}/edit'),
         ];
     }
 

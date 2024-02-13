@@ -42,6 +42,7 @@ class ClientResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
+                    ->extraAttributes(['class' => 'fi-uppercase'])
                     ->label('Nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')

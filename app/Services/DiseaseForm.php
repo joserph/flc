@@ -4,8 +4,17 @@ namespace App\Services;
 
 use Filament\Forms;
 
-final class ProductForm
+final class DiseaseForm
 {
+    protected static array $typeDisease = [
+        'apariencia'    => 'Apariencia',
+        'empaque'       => 'Empaque',
+        'follaje'       => 'Follaje',
+        'flor'          => 'Flor',
+        'sanidad'       => 'Sanidad',
+        'tallos'        => 'Tallos',
+    ];
+
     public static function schema(): array
     {
         return [
@@ -16,13 +25,12 @@ final class ProductForm
                         ->extraInputAttributes(['class' => 'fi-uppercase'])
                         ->unique(ignoreRecord: true)
                         ->columnSpan(2)
-                        ->label('Nombre del Producto')
+                        ->label('Nombre de la enfermedad')
                         ->required(),
-                    Forms\Components\TextInput::make('scientific_name')
-                        ->unique(ignoreRecord: true)
-                        ->extraInputAttributes(['class' => 'fi-uppercase'])
+                    Forms\Components\Select::make('type')
+                        ->options(self::$typeDisease)
                         ->columnSpan(2)
-                        ->label('Nombre Cientifico'),
+                        ->label('Tipo'),
                 ])
         ];
     }
