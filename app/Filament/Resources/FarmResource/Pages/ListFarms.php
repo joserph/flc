@@ -8,6 +8,7 @@ use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Str;
 
 class ListFarms extends ListRecords
 {
@@ -19,7 +20,17 @@ class ListFarms extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
                 ->color('info')
-                ->successNotificationTitle('Finca creada con exito!'),
+                ->successNotificationTitle('Finca creada con exito!')
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['name'] = Str::of($data['name'])->upper();
+                    $data['tradename'] = Str::of($data['tradename'])->upper();
+                    $data['address'] = Str::of($data['address'])->apa();
+                    $data['state'] = Str::of($data['state'])->upper();
+                    $data['city'] = Str::of($data['city'])->upper();
+                    $data['agroquality_code'] = Str::of($data['agroquality_code'])->upper();
+                    
+                    return $data;
+                }),
         ];
     }
 

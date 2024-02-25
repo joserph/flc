@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class VarietyResource extends Resource
 {
@@ -56,11 +57,16 @@ class VarietyResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                ->iconButton()
-                ->iconSize('sm')
-                ->slideOver()
-                ->color('warning')
-                ->successNotificationTitle('Variedad actualizada con exito!'),
+                    ->iconButton()
+                    ->iconSize('sm')
+                    ->slideOver()
+                    ->color('warning')
+                    ->successNotificationTitle('Variedad actualizada con exito!')
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['name'] = Str::of($data['name'])->upper();
+                        
+                        return $data;
+                    }),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),

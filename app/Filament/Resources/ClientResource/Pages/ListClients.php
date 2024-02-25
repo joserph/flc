@@ -8,6 +8,7 @@ use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Str;
 
 class ListClients extends ListRecords
 {
@@ -19,7 +20,15 @@ class ListClients extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
                 ->color('info')
-                ->successNotificationTitle('Finca creada con exito!'),
+                ->successNotificationTitle('Finca creada con exito!')
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['name'] = Str::of($data['name'])->upper();
+                    $data['address'] = Str::of($data['address'])->apa();
+                    $data['state'] = Str::of($data['state'])->upper();
+                    $data['city'] = Str::of($data['city'])->upper();
+                    
+                    return $data;
+                }),
         ];
     }
 

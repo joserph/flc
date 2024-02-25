@@ -5,10 +5,12 @@ namespace App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Str;
 
 class CreateCategory extends CreateRecord
 {
     protected static string $resource = CategoryResource::class;
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
@@ -17,4 +19,5 @@ class CreateCategory extends CreateRecord
     {
         return 'Category created';
     }
+    
 }

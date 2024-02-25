@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class FarmResource extends Resource
 {
@@ -111,11 +112,21 @@ class FarmResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                ->iconButton()
-                ->iconSize('sm')
-                ->slideOver()
-                ->color('warning')
-                ->successNotificationTitle('Finca actualizada con exito!'),
+                    ->iconButton()
+                    ->iconSize('sm')
+                    ->slideOver()
+                    ->color('warning')
+                    ->successNotificationTitle('Finca actualizada con exito!')
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['name'] = Str::of($data['name'])->upper();
+                        $data['tradename'] = Str::of($data['tradename'])->upper();
+                        $data['address'] = Str::of($data['address'])->apa();
+                        $data['state'] = Str::of($data['state'])->upper();
+                        $data['city'] = Str::of($data['city'])->upper();
+                        $data['agroquality_code'] = Str::of($data['agroquality_code'])->upper();
+                        
+                        return $data;
+                }),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),

@@ -29,6 +29,7 @@ final class DiseaseForm
                         ->required(),
                     Forms\Components\Select::make('type')
                         ->options(self::$typeDisease)
+                        ->required()
                         ->columnSpan(2)
                         ->label('Tipo'),
                 ])

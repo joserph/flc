@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class ProductResource extends Resource
 {
@@ -61,11 +62,17 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                ->iconButton()
-                ->iconSize('sm')
-                ->slideOver()
-                ->color('warning')
-                ->successNotificationTitle('Producto actualizado con exito!'),
+                    ->iconButton()
+                    ->iconSize('sm')
+                    ->slideOver()
+                    ->color('warning')
+                    ->successNotificationTitle('Producto actualizado con exito!')
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['name'] = Str::of($data['name'])->upper();
+                        $data['scientific_name'] = Str::of($data['scientific_name'])->upper();
+                        
+                        return $data;
+                    }),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),

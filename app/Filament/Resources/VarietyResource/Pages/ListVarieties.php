@@ -8,7 +8,7 @@ use App\Models\Variety;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ListVarieties extends ListRecords
 {
@@ -20,7 +20,12 @@ class ListVarieties extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
                 ->color('info')
-                ->successNotificationTitle('Variedad creada con exito!'),
+                ->successNotificationTitle('Variedad creada con exito!')
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['name'] = Str::of($data['name'])->upper();
+                    
+                    return $data;
+                }),
         ];
     }
 

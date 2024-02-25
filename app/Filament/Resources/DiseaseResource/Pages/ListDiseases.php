@@ -8,6 +8,7 @@ use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Str;
 
 class ListDiseases extends ListRecords
 {
@@ -19,7 +20,12 @@ class ListDiseases extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
                 ->color('info')
-                ->successNotificationTitle('Enfermedad creada con exito!'),
+                ->successNotificationTitle('Enfermedad creada con exito!')
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['name'] = Str::of($data['name'])->upper();
+                    
+                    return $data;
+                }),
         ];
     }
 

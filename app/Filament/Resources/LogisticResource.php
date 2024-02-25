@@ -9,14 +9,12 @@ use App\Models\User;
 use App\Services\LogisticForm;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Hamcrest\StringDescription;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use PHPUnit\Framework\Attributes\Small;
+use Illuminate\Support\Str;
 
 class LogisticResource extends Resource
 {
@@ -93,7 +91,15 @@ class LogisticResource extends Resource
                     ->iconSize('sm')
                     ->slideOver()
                     ->color('warning')
-                    ->successNotificationTitle('Empresa de Logistica actualizada con exito!'),
+                    ->successNotificationTitle('Empresa de Logistica actualizada con exito!')
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['name'] = Str::of($data['name'])->upper();
+                        $data['address'] = Str::of($data['address'])->apa();
+                        $data['state'] = Str::of($data['state'])->upper();
+                        $data['city'] = Str::of($data['city'])->upper();
+                        
+                        return $data;
+                    }),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),

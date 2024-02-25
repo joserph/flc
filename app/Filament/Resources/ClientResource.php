@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class ClientResource extends Resource
 {
@@ -111,7 +112,15 @@ class ClientResource extends Resource
                 ->iconSize('sm')
                 ->slideOver()
                 ->color('warning')
-                ->successNotificationTitle('Cliente actualizado con exito!'),
+                ->successNotificationTitle('Cliente actualizado con exito!')
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['name'] = Str::of($data['name'])->upper();
+                    $data['address'] = Str::of($data['address'])->apa();
+                    $data['state'] = Str::of($data['state'])->upper();
+                    $data['city'] = Str::of($data['city'])->upper();
+                    
+                    return $data;
+                }),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),
