@@ -47,9 +47,6 @@ final class ClientForm
                         ->options(self::$countries)
                         ->searchable()
                         ->label('Pais'),
-                    Forms\Components\Select::make('logistic_id')
-                        ->relationship('logistic', 'name')
-                        ->required(),
                     Forms\Components\Select::make('status')
                         ->options(self::$statuses)
                         ->required(),

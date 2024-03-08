@@ -7,9 +7,6 @@ use App\Filament\Resources\ReturnReportResource\RelationManagers;
 use App\Models\ReturnReport;
 use App\Models\User;
 use App\Services\ReturnReportForm;
-use Filament\Actions\CreateAction;
-use Filament\Forms;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
@@ -42,45 +39,47 @@ class ReturnReportResource extends Resource
         
     }
 
-    // public function getHeaderActions(): array
-    // {
-    //     return [
-    //         CreateAction::make()
-    //             ->model(ReturnReport::class)
-    //             ->form([
-    //                 TextInput::make('title')
-    //                     ->required()
-    //                     ->maxLength(255),
-    //                 // ...
-    //             ])
-    //     ];
-    // }
-
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('client.name')
+                    ->label('Cliente')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
+                    ->label('Fecha')
+                    ->sortable()
+                    ->dateTime('d-m-Y')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('logistic.name')
+                    ->label('Empresa de logistica')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('guide_type')
+                    ->label('Tipo de Carga')
+                    ->sortable()
+                    ->extraAttributes(['class' => 'fi-uppercase'])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('guide_number')
+                    ->label('Nuemro de Guia')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('destination')
+                    ->label('Destino')
+                    ->sortable()
                     ->searchable(),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                // Tables\Filters\TrashedFilter::make(),
+            ])
+            ->headerActions([
+                
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->iconButton()
                     ->iconSize('sm')
-                    // ->slideOver()
                     ->modalWidth(MaxWidth::FiveExtraLarge)
                     ->color('warning')
                     ->successNotificationTitle('Reporte de devolucion actualizado con exito!')
@@ -92,7 +91,11 @@ class ReturnReportResource extends Resource
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),
-                Tables\Actions\RestoreAction::make()
+                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\Action::make('pdf')
+                    ->icon('heroicon-o-arrow-down-on-square')
+                    ->url(fn(ReturnReport $record) => route('return-report.pdf', $record))
+                    ->openUrlInNewTab()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

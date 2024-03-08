@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClientResource\Pages;
-use App\Filament\Resources\ClientResource\RelationManagers;
-use App\Models\Client;
+use App\Filament\Resources\DialingResource\Pages;
+use App\Filament\Resources\DialingResource\RelationManagers;
+use App\Models\Dialing;
 use App\Models\User;
-use App\Services\ClientForm;
+use App\Services\DialingForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,15 +16,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
-class ClientResource extends Resource
+class DialingResource extends Resource
 {
-    protected static ?string $model = Client::class;
+    protected static ?string $model = Dialing::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-ticket';
+    protected static ?string $navigationIcon = 'heroicon-o-bookmark-square';
 
-    protected static ?string $modelLabel = 'Cliente';
+    protected static ?string $modelLabel = 'Marcacion';
 
-    protected static ?string $pluralLabel = 'Clientes';
+    protected static ?string $pluralLabel = 'Marcaciones';
 
     public static function getBreadcrumb(): string
     {
@@ -34,7 +34,7 @@ class ClientResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(ClientForm::schema());
+            ->schema(DialingForm::schema());
     }
 
     public static function table(Table $table): Table
@@ -53,10 +53,6 @@ class ClientResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->extraAttributes(['class' => 'capitalize']),
-                // Tables\Columns\TextColumn::make('status')
-                //     ->sortable()
-                //     ->label('Estatus')
-                //     ->searchable(),
                 Tables\Columns\TextColumn::make('cell_phone')
                     ->sortable()
                     ->label('Celular')
@@ -151,9 +147,9 @@ class ClientResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListClients::route('/'),
-            // 'create' => Pages\CreateClient::route('/create'),
-            // 'edit' => Pages\EditClient::route('/{record}/edit'),
+            'index' => Pages\ListDialings::route('/'),
+            // 'create' => Pages\CreateDialing::route('/create'),
+            // 'edit' => Pages\EditDialing::route('/{record}/edit'),
         ];
     }
 

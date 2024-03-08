@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PdfController;
 use App\Livewire\Logistics;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/{slug}', [HomeController::class, 'view']);
+Route::get('return-report-pdf/{id}', [PdfController::class, 'returnReportPdf'])->name('return-report.pdf');

@@ -2,130 +2,58 @@
 
 namespace App\Services;
 
-use App\Models\Client;
-use App\Models\Dialing;
-use App\Models\Disease;
-use App\Models\Farm;
-use App\Models\Logistic;
-use App\Models\Variety;
 use Filament\Forms;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Repeater;
 
-final class ReturnReportForm
+final class DialingForm
 {
-    
+    protected static array $statuses = [
+        'activa'        => 'Activa',
+        'suspendida'    => 'Suspendida',
+        'cerrada'       => 'Cerrada',
+    ];
 
     public static function schema(): array
     {
         return [
-            Group::make()
+            Forms\Components\Grid::make(4)
                 ->schema([
-                    Forms\Components\Section::make()
-                        ->schema([
-                            Forms\Components\Select::make('client_id')
-                                ->label('Cliente')
-                                ->extraInputAttributes(['class' => 'fi-uppercase'])
-                                ->columnSpan(2)
-                                ->options(Client::query()->pluck('name', 'id'))
-                                ->searchable()
-                                ->required(),
-                            Forms\Components\Select::make('logistic_id')
-                                ->label('Agencia')
-                                ->columnSpan(2)
-                                ->options(Logistic::query()->pluck('name', 'id'))
-                                ->searchable()
-                                ->required(),
-                            Forms\Components\DatePicker::make('date')
-                                ->label('Fecha')
-                                ->required(),
-                            Forms\Components\Select::make('guide_type')
-                                ->label('Tipo de Guia')
-                                ->options(self::$guideType)
-                                ->required(),
-                            Forms\Components\TextInput::make('guide_number')
-                                ->extraInputAttributes(['class' => 'fi-uppercase'])
-                                ->label('Numero de Guia')
-                                ->required(),
-                            Forms\Components\Select::make('destination')
-                                ->label('Destino')
-                                ->searchable()
-                                ->options(self::$countries)
-                                ->required(),
-                        ])->columns([
-                            'sm' => 4,
-                        ]),
-                    Forms\Components\Section::make()
-                        ->schema([
-                            // Forms\Components\Placeholder::make('Detalle de Devoluciones'),
-                            Repeater::make('returnReportItems')
-                                ->label('Detalle de Devoluciones')
-                                ->relationship()
-                                ->schema([
-                                    Forms\Components\Select::make('farm_id')
-                                        ->label('Finca')
-                                        ->options(Farm::query()->pluck('name', 'id'))
-                                        ->columnSpan(3)
-                                        ->searchable()
-                                        ->required(),
-                                    Forms\Components\Select::make('dialing_id')
-                                        ->label('Marcacion')
-                                        ->columnSpan(3)
-                                        ->options(Dialing::query()->pluck('name', 'id'))
-                                        ->searchable()
-                                        ->required(),
-                                    Forms\Components\Select::make('variety_id')
-                                        ->label('Variedad')
-                                        ->options(Variety::query()->pluck('name', 'id'))
-                                        ->columnSpan(2)
-                                        ->searchable()
-                                        ->required(),
-                                    Forms\Components\TextInput::make('hawb')
-                                        ->label('HAWB')
-                                        ->columnSpan(2)
-                                        ->required(),
-                                    Forms\Components\TextInput::make('packing')
-                                        ->label('Empaque')
-                                        ->columnSpan(2)
-                                        ->required(),
-                                    Forms\Components\Select::make('diseases')
-                                        ->label('Problemas')
-                                        ->multiple()
-                                        ->columnSpan(3)
-                                        ->relationship('diseases', 'name'),
-                                    // Forms\Components\Select::make('disease_id')
-                                    //     ->label('Problema')
-                                    //     ->options(Disease::query()->pluck('name', 'id'))
-                                    //     ->multiple()
-                                    //     ->columnSpan(3)
-                                    //     ->searchable()
-                                    //     ->required(),
-                                    Forms\Components\TextInput::make('piece')
-                                        ->label('Cantidad')
-                                        ->columnSpan(1)
-                                        ->numeric()
-                                        ->required(),
-                                    
-                                    Forms\Components\Select::make('type_piece')
-                                        ->label('Tipo de Piezas')
-                                        ->options(self::$typePieces)
-                                        ->columnSpan(2)
-                                        ->required(),
-                                    Forms\Components\TextInput::make('observations')
-                                        ->label('Observaciones')
-                                        ->columnSpan(4)
-                                ])
-                                ->columns(8)
-                                ->defaultItems(1)
-                        ])
-                ])->columnSpan('full')
+                    Forms\Components\TextInput::make('name')
+                        ->autofocus()
+                        ->extraInputAttributes(['class' => 'fi-uppercase'])
+                        ->unique(ignoreRecord: true)
+                        ->columnSpan(2)
+                        ->label('Nombre del cliente')
+                        ->required(),
+                    Forms\Components\TextInput::make('phone')
+                        ->numeric()
+                        ->prefix('+')
+                        ->label('Telefono'),
+                    Forms\Components\TextInput::make('cell_phone')
+                        ->numeric()
+                        ->prefix('+')
+                        ->label('Celular'),
+                    Forms\Components\TextInput::make('email')
+                        ->label('Correo'),
+                    Forms\Components\TextInput::make('address')
+                        ->columnSpan(2)
+                        ->label('Direccion'),
+                    Forms\Components\TextInput::make('state')
+                        ->label('Estado'),
+                    Forms\Components\TextInput::make('city')
+                        ->label('Ciudad'),
+                    Forms\Components\TextInput::make('zip_code')
+                        ->label('Zip code'),
+                    Forms\Components\Select::make('country')
+                        ->options(self::$countries)
+                        ->searchable()
+                        ->label('Pais'),
+                    Forms\Components\Select::make('status')
+                        ->options(self::$statuses)
+                        ->required(),
+                    
+                ])
         ];
     }
-
-    protected static array $guideType = [
-        'matitimo'  => 'Maritimo',
-        'aereo'     => 'Aereo',
-    ];
 
     protected static array $countries =  [
         'AFGANISTÁN' => 'AFGANISTÁN',
@@ -322,11 +250,5 @@ final class ReturnReportForm
         'YIBUTI' => 'YIBUTI',
         'ZAMBIA' => 'ZAMBIA',
         'ZIMBABUE' => 'ZIMBABUE',
-    ];
-
-    protected static array $typePieces = [
-        'eb' => 'EB',
-        'qb' => 'QB',
-        'hb' => 'HB',
     ];
 }

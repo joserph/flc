@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Client;
+use App\Models\Dialing;
 use App\Models\Disease;
 use App\Models\Farm;
 use App\Models\ReturnReport;
@@ -26,7 +27,8 @@ return new class extends Migration
             $table->foreignIdFor(Disease::class)->constrained();
             $table->integer('piece');
             $table->string('type_piece');
-            $table->foreignIdFor(Client::class)->constrained();
+            $table->string('hawb');
+            $table->foreignIdFor(Dialing::class)->constrained();
             $table->text('observations');
             $table->softDeletes();
 
