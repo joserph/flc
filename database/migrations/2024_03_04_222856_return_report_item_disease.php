@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('return_report_item_disease', function (Blueprint $table) {
+        Schema::create('return_report_item_diseases', function (Blueprint $table) {
             $table->id();
 
             $table->foreignIdFor(ReturnReportItem::class);
             $table->foreignIdFor(Disease::class);
+            $table->string('percentage')->default('0')->nullable();
 
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('return_report_item_disease');
+        Schema::dropIfExists('return_report_item_diseases');
     }
 };

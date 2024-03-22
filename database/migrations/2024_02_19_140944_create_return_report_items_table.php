@@ -24,12 +24,14 @@ return new class extends Migration
             $table->foreignIdFor(Farm::class)->constrained();
             $table->foreignIdFor(Variety::class)->constrained();
             $table->string('packing');
-            $table->foreignIdFor(Disease::class)->constrained();
+            // $table->foreignIdFor(Disease::class)->constrained();
             $table->integer('piece');
             $table->string('type_piece');
             $table->string('hawb');
             $table->foreignIdFor(Dialing::class)->constrained();
             $table->text('observations');
+            $table->text('images')->nullable();
+            $table->string('qualification')->nullable();
             $table->softDeletes();
 
             $table->timestamps();

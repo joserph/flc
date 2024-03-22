@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ReturnReportItem extends Model
@@ -22,12 +24,25 @@ class ReturnReportItem extends Model
         'type_piece',
         'hawb',
         'dialing_id',
-        'observations'
+        'observations',
+        'images',
+        'qualification'
     ];
 
     protected $casts = [
-        'disease_id' => 'array'
+        'disease_id' => 'array',
+        'images' => 'array'
     ];
+
+    public function return_report(): BelongsTo
+    {
+        return $this->belongsTo(ReturnReport::class, 'return_report_id');
+    }
+
+    public function returnReportItems(): BelongsToMany
+    {
+        return $this->belongsToMany(ReturnReport::class);
+    }
 
     public function farm(): BelongsTo
     {
@@ -41,7 +56,12 @@ class ReturnReportItem extends Model
 
     public function diseases(): BelongsToMany
     {
-        return $this->belongsToMany(Disease::class, 'return_report_item_disease')->withTimestamps();
+        return $this->belongsToMany(Disease::class, 'return_report_item_diseases')->withTimestamps();
+    }
+
+    public function returnReportItemDisease(): HasMany
+    {
+        return $this->hasMany(ReturnReportItemDisease::class);
     }
 
     public function dialing(): BelongsTo
