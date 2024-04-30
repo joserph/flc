@@ -46,7 +46,7 @@ final class LogisticForm
                         ->label('Pais')
                         ->required(),
                     Forms\Components\FileUpload::make('image_url')
-                        ->directory('company-image')
+                        ->directory('company')
                         ->image()
                         ->imageEditor()
                 ])

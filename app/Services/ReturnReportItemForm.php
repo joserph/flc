@@ -50,6 +50,7 @@ final class ReturnReportItemForm
                             ->required(),
                         Forms\Components\TextInput::make('hawb')
                             ->label('HAWB')
+                            ->extraInputAttributes(['class' => 'fi-uppercase'])
                             ->required(),
                         Forms\Components\TextInput::make('packing')
                             ->label('Empaque')
@@ -88,6 +89,8 @@ final class ReturnReportItemForm
                                         Forms\Components\TextInput::make('percentage')
                                             ->label('Porcentaje')
                                             ->numeric()
+                                            ->minValue(1)
+                                            ->maxValue(100)
                                     ])->grid(2)
                                     ->columns(4)
                                     ->live()
@@ -113,12 +116,14 @@ final class ReturnReportItemForm
                             FileUpload::make('images')
                                 ->label('Imagenes')
                                 ->multiple()
-                                ->directory('reports_images')
+                                ->directory('reports_images/'. date('Y') .'-' . date('m'))
                                 ->image()
                                 ->imageEditor()
                                 ->uploadProgressIndicatorPosition('center')
                                 ->required()
                                 ->reorderable()
+                                ->optimize('webp')
+                                ->resize(50)
                                 ->imagePreviewHeight('100')
                         ])->columnSpan(4)
                 
@@ -132,7 +137,7 @@ final class ReturnReportItemForm
         $selectDisease = collect($get('returnReportItemDisease'));
         $totalPercent = $selectDisease->reduce(function ($totalPercent, $disease){
             // dd($totalPercent);
-            return $totalPercent + $disease['percentage'];
+            return intval($totalPercent) + intval($disease['percentage']);
         }, 0);
 
         $set('qualification', $totalPercent);

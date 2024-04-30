@@ -19,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/{slug}', [HomeController::class, 'view']);
 Route::get('return-report-pdf/{id}', [PdfController::class, 'returnReportPdf'])->name('return-report.pdf');
+Route::get('quality-control-report-pdf/{id}', [PdfController::class, 'qualityControlReportPdf'])->name('quality-control-report.pdf');

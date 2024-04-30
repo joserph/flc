@@ -14,10 +14,12 @@
         "filament/filament": "^3.0-stable",
         "filament/tables": "^3.0-stable",
         "guzzlehttp/guzzle": "^7.2",
+        "joshembling/image-optimizer": "^1.4",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "laraveles/spanish": "^1.5"
+        "laraveles/spanish": "^1.5",
+        "outerweb/filament-image-library": "^2.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

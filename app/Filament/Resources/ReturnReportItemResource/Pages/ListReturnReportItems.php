@@ -9,6 +9,7 @@ use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Enums\MaxWidth;
+use Illuminate\Support\Str;
 
 class ListReturnReportItems extends ListRecords
 {
@@ -21,7 +22,12 @@ class ListReturnReportItems extends ListRecords
                 ->icon('heroicon-o-plus-circle')
                 ->color('info')
                 ->modalWidth(MaxWidth::FiveExtraLarge)
-                ->successNotificationTitle('Informe de devolucion creado con exito!'),
+                ->successNotificationTitle('Informe de devolucion creado con exito!')
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['hawb'] = Str::of($data['hawb'])->upper();
+                    
+                    return $data;
+                }),
         ];
     }
 

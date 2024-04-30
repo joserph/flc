@@ -2,8 +2,6 @@
 
 @config 'tailwind.config.js';
 
-@layer components {
-    .fi-section-content-ctn {
-         border: #876543;
-    }
+.filepond--item[data-drag-state]{
+    width: calc(25% - 0.5em);
 }

@@ -7,10 +7,14 @@ use App\Models\Dialing;
 use App\Models\Disease;
 use App\Models\Farm;
 use App\Models\Logistic;
+use App\Models\Product;
 use App\Models\Variety;
 use Filament\Forms;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Illuminate\Support\Collection;
 
 final class ReturnReportForm
 {
@@ -65,23 +69,35 @@ final class ReturnReportForm
                                     Forms\Components\Select::make('farm_id')
                                         ->label('Finca')
                                         ->options(Farm::query()->pluck('name', 'id'))
-                                        ->columnSpan(3)
+                                        ->columnSpan(4)
                                         ->searchable()
                                         ->required(),
                                     Forms\Components\Select::make('dialing_id')
                                         ->label('Marcacion')
-                                        ->columnSpan(3)
+                                        ->columnSpan(4)
                                         ->options(Dialing::query()->pluck('name', 'id'))
+                                        ->searchable()
+                                        ->required(),
+                                    Forms\Components\Select::make('product_id')
+                                        ->label('Producto')
+                                        ->options(Product::query()->pluck('name', 'id'))
+                                        ->columnSpan(2)
+                                        ->live()
+                                        ->afterStateUpdated(fn (Set $set) => $set('variety_id', null))
                                         ->searchable()
                                         ->required(),
                                     Forms\Components\Select::make('variety_id')
                                         ->label('Variedad')
-                                        ->options(Variety::query()->pluck('name', 'id'))
+                                        ->options(fn (Get $get): Collection => Variety::query()
+                                            ->where('product_id', $get('product_id'))
+                                            ->pluck('name','id'))
+                                        // ->options(Variety::query()->pluck('name', 'id'))
                                         ->columnSpan(2)
                                         ->searchable()
                                         ->required(),
                                     Forms\Components\TextInput::make('hawb')
                                         ->label('HAWB')
+                                        ->extraInputAttributes(['class' => 'fi-uppercase'])
                                         ->columnSpan(2)
                                         ->required(),
                                     Forms\Components\TextInput::make('packing')
@@ -91,7 +107,9 @@ final class ReturnReportForm
                                     Forms\Components\Select::make('diseases')
                                         ->label('Problemas')
                                         ->multiple()
+                                        ->preload()
                                         ->columnSpan(3)
+                                        ->required()
                                         ->relationship('diseases', 'name'),
                                     // Forms\Components\Select::make('disease_id')
                                     //     ->label('Problema')
@@ -123,7 +141,7 @@ final class ReturnReportForm
     }
 
     protected static array $guideType = [
-        'matitimo'  => 'Maritimo',
+        'maritimo'  => 'Maritimo',
         'aereo'     => 'Aereo',
     ];
 

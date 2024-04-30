@@ -19,7 +19,7 @@ final class ProductForm
                         ->label('Nombre del Producto')
                         ->required(),
                     Forms\Components\TextInput::make('scientific_name')
-                        ->unique(ignoreRecord: true)
+                        // ->unique(ignoreRecord: true)
                         ->extraInputAttributes(['class' => 'fi-uppercase'])
                         ->columnSpan(2)
                         ->label('Nombre Cientifico'),

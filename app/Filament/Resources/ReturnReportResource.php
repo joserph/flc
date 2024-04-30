@@ -43,14 +43,14 @@ class ReturnReportResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('client.name')
-                    ->label('Cliente')
-                    ->sortable()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Fecha')
                     ->sortable()
                     ->dateTime('d-m-Y')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('client.name')
+                    ->label('Cliente')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('logistic.name')
                     ->label('Empresa de logistica')
@@ -70,6 +70,7 @@ class ReturnReportResource extends Resource
                     ->sortable()
                     ->searchable(),
             ])
+            ->defaultSort('date', 'desc')
             ->filters([
                 // Tables\Filters\TrashedFilter::make(),
             ])

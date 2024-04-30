@@ -12,9 +12,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class ReturnReportItemResource extends Resource
 {
@@ -65,8 +67,8 @@ class ReturnReportItemResource extends Resource
                 Tables\Columns\TextColumn::make('diseases.name')
                     ->label('Problemas')
                     ->searchable(),
-                
             ])
+            ->defaultSort('return_report.date', 'desc')
             ->filters([
                 // Tables\Filters\TrashedFilter::make(),
             ])
@@ -76,11 +78,20 @@ class ReturnReportItemResource extends Resource
                     ->iconSize('sm')
                     ->modalWidth(MaxWidth::FiveExtraLarge)
                     ->color('warning')
-                    ->successNotificationTitle('Informe actualizado con exito!'),
+                    ->successNotificationTitle('Informe actualizado con exito!')
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['hawb'] = Str::of($data['hawb'])->upper();
+                        //dd($data);
+                        return $data;
+                    }),
                 Tables\Actions\DeleteAction::make()
                     ->iconButton()
                     ->iconSize('sm'),
-                Tables\Actions\RestoreAction::make()
+                Tables\Actions\RestoreAction::make(),
+                Action::make('pdf')
+                    ->icon('heroicon-o-arrow-down-on-square')
+                    ->url(fn(ReturnReportItem $record) => route('quality-control-report.pdf', $record))
+                    ->openUrlInNewTab()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -7,7 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css', 
                 'resources/js/app.js',
-                // 'resources/css/filament/dashboard/theme.css'
+                'resources/css/filament/dashboard/theme.css'
             ],
             refresh: [
                 ...refreshPaths,

@@ -26,7 +26,8 @@ class ReturnReportItem extends Model
         'dialing_id',
         'observations',
         'images',
-        'qualification'
+        'qualification',
+        'product_id'
     ];
 
     protected $casts = [
@@ -67,5 +68,10 @@ class ReturnReportItem extends Model
     public function dialing(): BelongsTo
     {
         return $this->belongsTo(Dialing::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 }

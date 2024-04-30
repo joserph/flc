@@ -4,6 +4,7 @@ use App\Models\Client;
 use App\Models\Dialing;
 use App\Models\Disease;
 use App\Models\Farm;
+use App\Models\Product;
 use App\Models\ReturnReport;
 use App\Models\Variety;
 use Illuminate\Database\Migrations\Migration;
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(ReturnReport::class)->constrained();
             $table->foreignIdFor(Farm::class)->constrained();
             $table->foreignIdFor(Variety::class)->constrained();
+            $table->foreignIdFor(Product::class)->constrained();
             $table->string('packing');
             // $table->foreignIdFor(Disease::class)->constrained();
             $table->integer('piece');

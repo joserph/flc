@@ -11,6 +11,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -45,6 +46,10 @@ class VarietyResource extends Resource
                     ->sortable()
                     ->extraAttributes(['class' => 'fi-uppercase'])
                     ->label('Nombre de la Variedad')
+                    ->searchable(),
+                TextColumn::make('product.name')
+                    ->label('Producto')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
